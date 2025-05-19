@@ -59,7 +59,11 @@
             let dropdown = document.getElementById("userDropdown");
             dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
         }
+
+        // Para que salga el boton de deslogueo
     </script>
+
+    
 
 <!--  DIV xd con usuario y botón -->
     
@@ -68,6 +72,7 @@
         <button style="margin-top: 10px;">Volver al Menú Principal</button>
     </a>
 
+    <button id="editarStockBtn">Editar Stock</button>
 
 
     <form method="get">
@@ -81,6 +86,7 @@
     <table>
         <thead>
             <tr>
+                <th>Seleccionar</th>
                 <th>Nombre</th>
                 <th>Categoría</th>
                 <th>Cantidad</th>
@@ -90,6 +96,7 @@
         <tbody>
             {% for item in items %}
             <tr>
+                <td><input type="radio" name="itemSeleccionado" value="{{ item._id }}"></td>
                 <td>{{ item.nombre }}</td>
                 <td>{{ item.categoria }}</td>
                 <td>{{ item.cantidad }}</td>
@@ -99,6 +106,66 @@
         </tbody>
     </table>
 
+
+    <!-- -------------------------------------- -->
+
+
+
+    <div id="opcionesModal" style="display:none; position:fixed; top:30%; left:40%; background:white; border:1px solid gray; padding:20px;">
+        <p>¿Qué desea hacer con este ítem?</p>
+        <button id="editarBtn">Editar información</button>
+        <button id="eliminarBtn">Eliminar ítem</button>
+        <button onclick="cerrarModal()">Cancelar</button>
+    </div>
+
+    <div id="confirmModal" style="display:none; position:fixed; top:35%; left:40%; background:white; border:1px solid red; padding:20px;">
+        <p>¿Estás seguro de que deseas eliminar este ítem?</p>
+        <form id="formEliminar" method="POST">
+            <div id="confirmModal" style="display: none;">
+                <p>¿Estás seguro de que deseas eliminar este ítem?</p>
+                <button type="submit">Sí, eliminar</button>
+                <button type="button" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const editarStockBtn = document.getElementById("editarStockBtn");
+
+    if (editarStockBtn) {
+        editarStockBtn.addEventListener("click", function () {
+            const seleccionado = document.querySelector('input[name="itemSeleccionado"]:checked');
+            if (seleccionado) {
+                const itemId = seleccionado.value;
+                mostrarOpciones(itemId);
+            } else {
+                alert("Selecciona un ítem primero.");
+            }
+        });
+    }
+
+    function mostrarOpciones(itemId) {
+        const modal = document.getElementById("opcionesModal");
+        modal.style.display = "block";
+
+        document.getElementById("editarBtn").onclick = function () {
+            window.location.href = "/editar/" + itemId;
+        };
+
+        document.getElementById("eliminarBtn").onclick = function () {
+            document.getElementById("opcionesModal").style.display = "none";
+            document.getElementById("formEliminar").action = "/eliminar/" + itemId;
+            document.getElementById("confirmModal").style.display = "block";
+        };
+    }
+
+    window.cerrarModal = function () {
+        document.getElementById("opcionesModal").style.display = "none";
+        document.getElementById("confirmModal").style.display = "none";
+    }
+});
+</script>
 
 </body>
 </html>

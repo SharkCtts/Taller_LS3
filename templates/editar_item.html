@@ -1,0 +1,13 @@
+<h2>Editar Ítem</h2>
+<form method="POST">
+    <label>Nombre:</label><br>
+    <input type="text" name="nombre" value="{{ item.nombre }}"><br><br>
+    <label>Categoría:</label><br>
+    <input type="text" name="categoria" value="{{ item.categoria }}"><br><br>
+    <label>Cantidad:</label><br>
+    <input type="number" name="cantidad" value="{{ item.cantidad }}"><br><br>
+    <label>Precio (USD):</label><br>
+    <input type="text" name="precio" value="{{ item.precio }}"><br><br>
+    <button type="submit">Guardar Cambios</button>
+    <a href="{{ url_for('visualizar') }}"><button type="button">Cancelar</button></a>
+</form>

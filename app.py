@@ -66,5 +66,48 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+
+
+# acá abajo están las rutas para editar / eliminar
+
+@app.route('/editar/<item_id>', methods=['GET', 'POST'])
+def editar_item(item_id):
+    item = stock_collection.find_one({'_id': ObjectId(item_id)})
+
+    if not item:
+        return "Ítem no encontrado", 404
+
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        categoria = request.form['categoria']
+        cantidad = int(request.form['cantidad'])
+        precio = float(request.form['precio'])
+
+        stock_collection.update_one(
+            {'_id': ObjectId(item_id)},
+            {'$set': {
+                'nombre': nombre,
+                'categoria': categoria,
+                'cantidad': cantidad,
+                'precio': precio
+            }}
+        )
+        return redirect(url_for('visualizar'))
+
+    return render_template('editar_item.html', item=item)
+
+
+
+@app.route('/eliminar/<item_id>', methods=['POST'])
+def eliminar_item(item_id):
+    try:
+        stock_collection.delete_one({'_id': ObjectId(item_id)})
+        return redirect(url_for('visualizar'))
+    except Exception as e:
+        return f"Error eliminando el ítem: {str(e)}", 500
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
