@@ -2,6 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
+import pandas as pd
+from flask import send_file
+import io
+
+
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
@@ -105,6 +110,30 @@ def eliminar_item(item_id):
         return redirect(url_for('visualizar'))
     except Exception as e:
         return f"Error eliminando el ítem: {str(e)}", 500
+
+
+# Acá va la ruta para poder pasar a excel los datos xd
+
+@app.route('/exportar_excel')
+def exportar_excel():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    data = list(stock_collection.find())
+    for item in data:
+        item['_id'] = str(item['_id'])  # Convertir ObjectId a str para Excel
+
+    df = pd.DataFrame(data)
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Stock')
+
+    output.seek(0)
+
+    return send_file(output,
+                     download_name="stock.xlsx",
+                     as_attachment=True,
+                     mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 
 if __name__ == '__main__':
