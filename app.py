@@ -29,12 +29,18 @@ def menu():
         return redirect(url_for('login'))
     return render_template('menu.html', username=session['username'])
 
-@app.route('/visualizar')
+@app.route('/visualizar', methods=['GET', 'POST'])
 def visualizar():
     if 'username' not in session:
         return redirect(url_for('login'))
-    items = list(stock_collection.find())
-    return render_template('visualizar.html', items=items)
+
+    query = request.args.get('q', '')  # obtenemos el parámetro de búsqueda
+    if query:
+        items = list(stock_collection.find({'nombre': {'$regex': query, '$options': 'i'}}))
+    else:
+        items = list(stock_collection.find())
+
+    return render_template('visualizar.html', items=items, query=query)
 
 @app.route('/datos', methods=['GET', 'POST'])
 def datos():

@@ -1,8 +1,45 @@
 <!DOCTYPE html>
-<html>
-<head><title>Visualizar Stock</title></head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizar Stock</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        input[type="text"] { padding: 5px; width: 300px; }
+        form { margin-bottom: 10px; }
+    </style>
+</head>
 <body>
-    <h2>Página de Visualización de Stock</h2>
-    <a href="{{ url_for('menu') }}">Volver al menú</a>
+    <h1>Stock de Partes Automovilísticas</h1>
+
+    <form method="get">
+        <input type="text" name="q" placeholder="Buscar por nombre..." value="{{ query }}">
+        <button type="submit">Buscar</button>
+        {% if query %}
+            <a href="{{ url_for('visualizar') }}">Limpiar</a>
+        {% endif %}
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.nombre }}</td>
+                <td>{{ item.categoria }}</td>
+                <td>{{ item.cantidad }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 </body>
 </html>
