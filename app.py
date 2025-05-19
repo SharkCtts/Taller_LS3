@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
 # Conexión a MongoDB
-client = MongoClient("mongodb+srv://root:root@juan.mongodb.net/")
+client = MongoClient("mongodb+srv://root:root@juan.i7bgn2f.mongodb.net/?retryWrites=true&w=majority&appName=Juan")
 db = client["stock_db"]
 users_collection = db["users"]
 stock_collection = db["stock"]
