@@ -60,12 +60,6 @@ def datos():
         return redirect(url_for('visualizar'))
     return render_template('datos.html')
 
-@app.route('/organizar')
-def organizar():
-    if 'username' not in session:
-        return redirect(url_for('login'))
-    items = list(stock_collection.find().sort('categoria'))
-    return render_template('organizar.html', items=items)
 
 @app.route('/logout')
 def logout():
