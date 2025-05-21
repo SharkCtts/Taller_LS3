@@ -139,6 +139,25 @@ def exportar_excel():
                      mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
 
+#La ruta para el apartado de gráficas xd
+
+@app.route('/graficas')
+def graficas():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    # Agrupar por categoría y sumar cantidades
+    pipeline = [
+        {"$group": {"_id": "$categoria", "total": {"$sum": "$cantidad"}}}
+    ]
+    datos_categoria = list(stock_collection.aggregate(pipeline))
+
+    categorias = [d['_id'] for d in datos_categoria]
+    cantidades = [d['total'] for d in datos_categoria]
+
+    return render_template('graficas.html', categorias=categorias, cantidades=cantidades, username=session['username'])
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 

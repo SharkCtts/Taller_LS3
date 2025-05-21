@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gráficas del Stock</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Gráfica por Categoría</h2>
+        <div>
+            <span>{{ username }}</span>
+            <a href="{{ url_for('menu') }}"><button>Volver al Menú</button></a>
+        </div>
+    </div>
+
+    <canvas id="grafico" width="600" height="400"></canvas>
+
+    <script>
+        const ctx = document.getElementById('grafico').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ categorias | tojson }},
+                datasets: [{
+                    label: 'Cantidad por Categoría',
+                    data: {{ cantidades | tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
