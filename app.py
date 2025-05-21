@@ -6,6 +6,9 @@ import pandas as pd
 from flask import send_file
 import io
 
+from flask import jsonify
+from datetime import datetime
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -174,6 +177,38 @@ def graficas():
         ventas=ventas_por_articulo,
         ingresos=ingresos_por_articulo
     )
+
+#filtro por mes
+
+@app.route('/api/grafica')
+def api_grafica():
+    tipo = request.args.get('tipo')  # venta o ingreso
+    mes = request.args.get('mes')
+
+    filtro = {'tipo': tipo}
+    if mes:
+        año = 2025
+        mes = int(mes)
+        inicio = datetime(año, mes, 1)
+        if mes == 12:
+            fin = datetime(año + 1, 1, 1)
+        else:
+            fin = datetime(año, mes + 1, 1)
+        filtro['fecha'] = {'$gte': inicio.isoformat(), '$lt': fin.isoformat()}
+
+    datos = db['historial'].aggregate([
+        {'$match': filtro},
+        {'$group': {'_id': '$nombre', 'total': {'$sum': '$cantidad'}}}
+    ])
+
+    labels = []
+    values = []
+
+    for item in datos:
+        labels.append(item['_id'])
+        values.append(item['total'])
+
+    return jsonify({'labels': labels, 'values': values})
 
 
 
