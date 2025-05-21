@@ -146,16 +146,35 @@ def graficas():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    # Agrupar por categoría y sumar cantidades
-    pipeline = [
-        {"$group": {"_id": "$categoria", "total": {"$sum": "$cantidad"}}}
-    ]
-    datos_categoria = list(stock_collection.aggregate(pipeline))
+    # Stock por categoría
+    productos = list(stock_collection.find())
+    categorias = {}
+    for prod in productos:
+        cat = prod.get('categoria', 'Sin categoría')
+        categorias[cat] = categorias.get(cat, 0) + prod.get('cantidad', 0)
 
-    categorias = [d['_id'] for d in datos_categoria]
-    cantidades = [d['total'] for d in datos_categoria]
+    # Historial: ventas e ingresos por artículo
+    historial_collection = db["historial"]
+    historial_docs = list(historial_collection.find())
 
-    return render_template('graficas.html', categorias=categorias, cantidades=cantidades, username=session['username'])
+    ventas_por_articulo = {}
+    ingresos_por_articulo = {}
+
+    for h in historial_docs:
+        nombre = h.get('nombre', 'Desconocido')
+        cantidad = h.get('cantidad', 0)
+        if h.get('tipo') == 'venta':
+            ventas_por_articulo[nombre] = ventas_por_articulo.get(nombre, 0) + cantidad
+        elif h.get('tipo') == 'ingreso':
+            ingresos_por_articulo[nombre] = ingresos_por_articulo.get(nombre, 0) + cantidad
+
+    return render_template(
+        'graficas.html',
+        categorias=categorias,
+        ventas=ventas_por_articulo,
+        ingresos=ingresos_por_articulo
+    )
+
 
 
 if __name__ == '__main__':

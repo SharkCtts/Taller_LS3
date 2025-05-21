@@ -1,43 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Gráficas del Stock</title>
+    <meta charset="UTF-8">
+    <title>Gráficas de Stock</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .chart-container {
+            width: 80%;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>Gráfica por Categoría</h2>
-        <div>
-            <span>{{ username }}</span>
-            <a href="{{ url_for('menu') }}"><button>Volver al Menú</button></a>
-        </div>
+    <h1 style="text-align:center;">Visualización de Gráficas</h1>
+
+    <div style="text-align:center;">
+        <button onclick="mostrarGrafica('categoria')">Stock por Categoría</button>
+        <button onclick="mostrarGrafica('ventas')">Ventas por Artículo</button>
+        <button onclick="mostrarGrafica('ingresos')">Ingresos por Artículo</button>
+        <a href="{{ url_for('menu') }}"><button>Volver al Menú</button></a>
     </div>
 
-    <canvas id="grafico" width="600" height="400"></canvas>
+    <div class="chart-container">
+        <canvas id="grafico"></canvas>
+    </div>
 
     <script>
+        const categoriaData = {
+            labels: {{ categorias.keys()|list|tojson }},
+            datasets: [{
+                label: 'Stock por Categoría',
+                data: {{ categorias.values()|list|tojson }},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        };
+
+        const ventasData = {
+            labels: {{ ventas.keys()|list|tojson }},
+            datasets: [{
+                label: 'Ventas por Artículo',
+                data: {{ ventas.values()|list|tojson }},
+                backgroundColor: 'rgba(248, 113, 113, 0.6)'
+            }]
+        };
+
+        const ingresosData = {
+            labels: {{ ingresos.keys()|list|tojson }},
+            datasets: [{
+                label: 'Ingresos por Artículo',
+                data: {{ ingresos.values()|list|tojson }},
+                backgroundColor: 'rgba(52, 211, 153, 0.6)'
+            }]
+        };
+
         const ctx = document.getElementById('grafico').getContext('2d');
-        const myChart = new Chart(ctx, {
+        let chart = new Chart(ctx, {
             type: 'bar',
-            data: {
-                labels: {{ categorias | tojson }},
-                datasets: [{
-                    label: 'Cantidad por Categoría',
-                    data: {{ cantidades | tojson }},
-                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        precision: 0
-                    }
-                }
-            }
+            data: categoriaData,
+            options: { responsive: true, scales: { y: { beginAtZero: true } } }
         });
+
+        function mostrarGrafica(tipo) {
+            chart.destroy();
+            let data = categoriaData;
+            if (tipo === 'ventas') {
+                data = ventasData;
+            } else if (tipo === 'ingresos') {
+                data = ingresosData;
+            }
+
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: { responsive: true, scales: { y: { beginAtZero: true } } }
+            });
+        }
     </script>
 </body>
 </html>
