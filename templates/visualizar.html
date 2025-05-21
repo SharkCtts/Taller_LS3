@@ -80,6 +80,11 @@
 
     <button id="editarStockBtn">Editar Stock</button>
 
+    <a href="{{ url_for('datos') }}">
+        <button>
+            Agregar al Stock
+        </button>
+    </a>
 
     <form method="get">
         <input type="text" name="q" placeholder="Buscar por nombre o categoría..." value="{{ query }}">

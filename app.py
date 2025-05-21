@@ -56,13 +56,16 @@ def visualizar():
 def datos():
     if 'username' not in session:
         return redirect(url_for('login'))
+
     if request.method == 'POST':
         stock_collection.insert_one({
             'nombre': request.form['nombre'],
             'cantidad': int(request.form['cantidad']),
-            'categoria': request.form['categoria']
+            'categoria': request.form['categoria'],
+            'precio': float(request.form['precio'])
         })
         return redirect(url_for('visualizar'))
+
     return render_template('datos.html')
 
 
