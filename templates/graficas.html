@@ -28,9 +28,13 @@
 
     <!-- Botones -->
 
+    <div id="ganancia" style="text-align:center; font-size: 18px; font-weight: bold;"></div>
+
+
     <div id="mesSelector" style="text-align:center; margin-top: 10px; display: none;">
         <label for="mes">Selecciona un mes:</label>
         <select id="mes" onchange="filtrarPorMes()">
+
             <option value="">Todos</option>
             <option value="1">Enero</option>
             <option value="2">Febrero</option>
@@ -54,88 +58,87 @@
     </div>
 
     <script>
-        const categoriaData = {
-            labels: {{ categorias.keys()|list|tojson }},
+    const ctx = document.getElementById('grafico').getContext('2d');
+    let chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
             datasets: [{
-                label: 'Stock por Categoría',
-                data: {{ categorias.values()|list|tojson }},
-                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                label: '',
+                data: [],
+                backgroundColor: ''
             }]
-        };
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    });
 
-        const ventasData = {
-            labels: {{ ventas.keys()|list|tojson }},
-            datasets: [{
-                label: 'Ventas por Artículo',
-                data: {{ ventas.values()|list|tojson }},
-                backgroundColor: 'rgba(248, 113, 113, 0.6)'
-            }]
-        };
+    let tipoActual = 'categoria';
 
-        const ingresosData = {
-            labels: {{ ingresos.keys()|list|tojson }},
-            datasets: [{
-                label: 'Ingresos por Artículo',
-                data: {{ ingresos.values()|list|tojson }},
-                backgroundColor: 'rgba(52, 211, 153, 0.6)'
-            }]
-        };
+    function mostrarGrafica(tipo) {
+        tipoActual = tipo;
+        const selector = document.getElementById('mesSelector');
+        const gananciaDiv = document.getElementById('ganancia');
+        selector.style.display = tipo === 'ventas' ? 'block' : 'none';
+        gananciaDiv.innerText = '';  // limpia ganancia al cambiar tipo
 
-        const ctx = document.getElementById('grafico').getContext('2d');
-        let chart = new Chart(ctx, {
+        if (tipo === 'categoria') {
+            actualizarGrafico({
+                labels: {{ categorias.keys()|list|tojson }},
+                datasets: [{
+                    label: 'Stock por Categoría',
+                    data: {{ categorias.values()|list|tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            });
+        } else {
+            cargarGrafico(tipo, document.getElementById('mes').value);
+        }
+    }
+
+    function filtrarPorMes() {
+        const mes = document.getElementById('mes').value;
+        cargarGrafico(tipoActual, mes);
+    }
+
+    function cargarGrafico(tipo, mes) {
+        fetch(`/api/grafica?tipo=${tipo === 'ventas' ? 'venta' : 'ingreso'}&mes=${mes}`)
+            .then(res => res.json())
+            .then(data => {
+                const color = tipo === 'ventas'
+                    ? 'rgba(248, 113, 113, 0.6)'
+                    : 'rgba(52, 211, 153, 0.6)';
+
+                actualizarGrafico({
+                    labels: data.labels,
+                    datasets: [{
+                        label: `${tipo === 'ventas' ? 'Ventas' : 'Ingresos'} por Artículo`,
+                        data: data.values,
+                        backgroundColor: color
+                    }]
+                });
+
+                // Mostrar ganancia si corresponde
+                const div = document.getElementById('ganancia');
+                if (tipo === 'ventas' && data.ganancia !== null) {
+                    div.innerText = `Ganancia en el mes: $${data.ganancia.toFixed(2)}`;
+                }
+            });
+    }
+
+    function actualizarGrafico(data) {
+        chart.destroy();
+        chart = new Chart(ctx, {
             type: 'bar',
-            data: categoriaData,
+            data: data,
             options: { responsive: true, scales: { y: { beginAtZero: true } } }
         });
-        
-        let tipoActual = 'categoria';
+    }
 
-        function mostrarGrafica(tipo) {
-            tipoActual = tipo;
-            document.getElementById('mesSelector').style.display = (tipo === 'ventas' || tipo === 'ingresos') ? 'block' : 'none';
+    // Mostrar la gráfica por defecto al cargar
+    window.onload = () => {
+        mostrarGrafica('categoria');
+    };
+</script>
 
-            if (tipo === 'categoria') {
-                actualizarGrafico(categoriaData);
-            } else {
-                // Llama a la API para obtener los datos filtrados
-                cargarGrafico(tipo, '');
-            }
-        }
-
-
-        function filtrarPorMes() {
-            const mes = document.getElementById('mes').value;
-            cargarGrafico(tipoActual, mes);
-        } 
-
-        function cargarGrafico(tipo, mes) {
-            fetch(`/api/grafica?tipo=${tipo === 'ventas' ? 'venta' : 'ingreso'}&mes=${mes}`)
-                .then(res => res.json())
-                .then(data => {
-                    const dataGrafica = {
-                        labels: data.labels,
-                        datasets: [{
-                            label: `${tipo === 'ventas' ? 'Ventas' : 'Ingresos'} por Artículo`,
-                            data: data.values,
-                            backgroundColor: tipo === 'ventas'
-                                ? 'rgba(248, 113, 113, 0.6)'
-                                : 'rgba(52, 211, 153, 0.6)'
-                        }]
-                    };
-                    actualizarGrafico(dataGrafica);
-                });
-        }
-
-
-        function actualizarGrafico(data) {
-            chart.destroy();
-            chart = new Chart(ctx, {
-                type: 'bar',
-                data: data,
-                options: { responsive: true, scales: { y: { beginAtZero: true } } }
-            });
-        }
-
-    </script>
 </body>
 </html>

@@ -11,6 +11,7 @@ import io
 
 from flask import jsonify
 from datetime import datetime
+from collections import defaultdict
 
 
 app = Flask(__name__)
@@ -21,6 +22,8 @@ client = MongoClient("mongodb+srv://root:root@juan.i7bgn2f.mongodb.net/?retryWri
 db = client["stock_db"]
 users_collection = db["users"]
 stock_collection = db["stock"]
+historial_collection = db['historial']
+
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -151,69 +154,86 @@ def exportar_excel():
 
 @app.route('/graficas')
 def graficas():
+    
+    meses_traducidos = {
+    'January': 'Enero', 'February': 'Febrero', 'March': 'Marzo',
+    'April': 'Abril', 'May': 'Mayo', 'June': 'Junio',
+    'July': 'Julio', 'August': 'Agosto', 'September': 'Septiembre',
+    'October': 'Octubre', 'November': 'Noviembre', 'December': 'Diciembre'
+}
+    
     if 'username' not in session:
         return redirect(url_for('login'))
 
     # Stock por categoría
-    productos = list(stock_collection.find())
-    categorias = {}
-    for prod in productos:
-        cat = prod.get('categoria', 'Sin categoría')
-        categorias[cat] = categorias.get(cat, 0) + prod.get('cantidad', 0)
+    categorias = defaultdict(int)
+    for item in stock_collection.find():
+        categorias[item['categoria']] += item['cantidad']
 
-    # Historial: ventas e ingresos por artículo
-    historial_collection = db["historial"]
-    historial_docs = list(historial_collection.find())
+    # Historial
+    historial = list(historial_collection.find())
+    ventas_por_articulo = defaultdict(int)
+    ingresos_por_articulo = defaultdict(int)
+    ventas_por_mes = defaultdict(int)  # cantidad total vendida por mes
+    ganancia_por_mes = defaultdict(float)  # ganancia total por mes
 
-    ventas_por_articulo = {}
-    ingresos_por_articulo = {}
+    precios = {item['nombre']: item['precio'] for item in stock_collection.find()}
 
-    for h in historial_docs:
-        nombre = h.get('nombre', 'Desconocido')
-        cantidad = h.get('cantidad', 0)
-        if h.get('tipo') == 'venta':
-            ventas_por_articulo[nombre] = ventas_por_articulo.get(nombre, 0) + cantidad
-        elif h.get('tipo') == 'ingreso':
-            ingresos_por_articulo[nombre] = ingresos_por_articulo.get(nombre, 0) + cantidad
+    for item in historial:
+        nombre = item['nombre']
+        cantidad = item['cantidad']
+        fecha = item.get('fecha')
 
-    return render_template(
-        'graficas.html',
-        categorias=categorias,
-        ventas=ventas_por_articulo,
-        ingresos=ingresos_por_articulo
-    )
+        if isinstance(fecha, str):
+            fecha = datetime.strptime(fecha, "%Y-%m-%d")
+
+        mes = meses_traducidos[fecha.strftime("%B")]
+        if item['tipo'] == 'venta':
+            ventas_por_articulo[nombre] += cantidad
+            ventas_por_mes[mes] += cantidad
+            ganancia_por_mes[mes] += precios.get(nombre, 0) * cantidad
+        elif item['tipo'] == 'ingreso':
+            ingresos_por_articulo[nombre] += cantidad
+
+    return render_template('graficas.html',
+                           categorias=categorias,
+                           ventas=ventas_por_articulo,
+                           ingresos=ingresos_por_articulo,
+                           ganancia_mes=ganancia_por_mes)
 
 #filtro por mes
 
 @app.route('/api/grafica')
 def api_grafica():
-    tipo = request.args.get('tipo')  # venta o ingreso
+    tipo = request.args.get('tipo')
     mes = request.args.get('mes')
 
-    filtro = {'tipo': tipo}
+    query = {'tipo': tipo}
     if mes:
-        año = 2025
-        mes = int(mes)
-        inicio = datetime(año, mes, 1)
-        if mes == 12:
-            fin = datetime(año + 1, 1, 1)
-        else:
-            fin = datetime(año, mes + 1, 1)
-        filtro['fecha'] = {'$gte': inicio.isoformat(), '$lt': fin.isoformat()}
+        query['fecha'] = {
+            '$regex': f'^2025-{int(mes):02d}'  # Filtra por año-mes (ej: 2025-05)
+        }
 
-    datos = db['historial'].aggregate([
-        {'$match': filtro},
-        {'$group': {'_id': '$nombre', 'total': {'$sum': '$cantidad'}}}
-    ])
+    registros = list(historial_collection.find(query))
+    precios = {item['nombre']: item['precio'] for item in stock_collection.find({})}
 
-    labels = []
-    values = []
+    conteo = {}
+    ganancia = 0
 
-    for item in datos:
-        labels.append(item['_id'])
-        values.append(item['total'])
+    for reg in registros:
+        nombre = reg['nombre']
+        cantidad = reg['cantidad']
+        conteo[nombre] = conteo.get(nombre, 0) + cantidad
 
-    return jsonify({'labels': labels, 'values': values})
+        if tipo == 'venta':
+            precio = precios.get(nombre, 0)
+            ganancia += cantidad * precio
+
+    return jsonify({
+        'labels': list(conteo.keys()),
+        'values': list(conteo.values()),
+        'ganancia': ganancia if tipo == 'venta' else None
+    })
 
 
 
