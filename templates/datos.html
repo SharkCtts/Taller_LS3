@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Agregar al Stock</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/datos.css') }}">
 </head>
 <body>
 
-    <div class="user-button" onclick="toggleDropdown()">
+    <div class="top-bar">
+        
+        <form action="{{ url_for('exportar_excel') }}" method="get" style="display: inline;">
+            <button type="submit" class="btn btn-success">Exportar a Excel</button>
+        </form>
+
+
+        <div class="user-button" onclick="toggleDropdown()">
             {{ username }}
             <img src="{{ url_for('static', filename='user_icon.png') }}" alt="User" width="30">
             <div class="dropdown" id="userDropdown">
