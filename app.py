@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
+import tkinter as tk
+from tkinter import messagebox
+
 import pandas as pd
 from flask import send_file
 import io
@@ -28,7 +31,9 @@ def login():
         if user:
             session['username'] = username
             return redirect(url_for('menu'))
-        return "Credenciales incorrectas"
+        else:
+            messagebox.showwarning("ADVERTENCIA: Credenciales incorrectas")
+            return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/menu')
