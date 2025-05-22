@@ -10,12 +10,7 @@
 <body>
 
     <div class="top-bar">
-        
-        <form action="{{ url_for('exportar_excel') }}" method="get" style="display: inline;">
-            <button type="submit" class="btn btn-success">Exportar a Excel</button>
-        </form>
-
-
+   
         <div class="user-button" onclick="toggleDropdown()">
             {{ username }}
             <img src="{{ url_for('static', filename='user_icon.png') }}" alt="User" width="30">
