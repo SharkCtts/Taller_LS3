@@ -63,7 +63,7 @@ def visualizar():
     else:
         items = list(stock_collection.find())
 
-    return render_template('visualizar.html', items=items, query=query)
+    return render_template('visualizar.html', items=items, query=query, username=session.get('username'))
 
 @app.route('/datos', methods=['GET', 'POST'])
 def datos():
@@ -79,7 +79,7 @@ def datos():
         })
         return redirect(url_for('visualizar'))
 
-    return render_template('datos.html')
+    return render_template('datos.html', username=session.get('username'))
 
 
 @app.route('/logout')
@@ -115,7 +115,7 @@ def editar_item(item_id):
         )
         return redirect(url_for('visualizar'))
 
-    return render_template('editar_item.html', item=item)
+    return render_template('editar_item.html', item=item, username=session.get('username'))
 
 
 
@@ -201,7 +201,7 @@ def graficas():
                            categorias=categorias,
                            ventas=ventas_por_articulo,
                            ingresos=ingresos_por_articulo,
-                           ganancia_mes=ganancia_por_mes)
+                           ganancia_mes=ganancia_por_mes, username=session.get('username'))
 
     
 
