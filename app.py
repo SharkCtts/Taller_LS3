@@ -212,13 +212,19 @@ def api_grafica():
     tipo = request.args.get('tipo')
     mes = request.args.get('mes')
 
-    query = {'tipo': tipo}
-    if mes:
-        query['fecha'] = {
-            '$regex': f'^2025-{int(mes):02d}'  # Filtra por año-mes (ej: 2025-05)
-        }
+    filtro = {'tipo': tipo}
 
-    registros = list(historial_collection.find(query))
+    # Aplica filtro por mes si se proporciona (esperando 'YYYY-MM')
+    if mes:
+        if len(mes.split("-")) == 2:  # Validación de formato
+            anio, mes_num = mes.split("-")
+            mes_num = mes_num.zfill(2)
+            filtro['fecha'] = {'$regex': f'^{anio}-{mes_num}'}
+        else:
+            return jsonify({"error": "Formato de mes inválido, se espera YYYY-MM"}), 400
+
+    # Consulta a MongoDB con filtro ya armado
+    registros = list(historial_collection.find(filtro))
     precios = {item['nombre']: item['precio'] for item in stock_collection.find({})}
 
     conteo = {}
@@ -233,7 +239,6 @@ def api_grafica():
             precio = precios.get(nombre, 0)
             ganancia += cantidad * precio
 
-    # 👇 Aquí se mueve el cálculo fuera del bucle y fuera del if
     total_ingresos = sum(conteo.values()) if tipo == 'ingreso' else None
 
     return jsonify({

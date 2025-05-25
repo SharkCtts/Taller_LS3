@@ -45,22 +45,7 @@
 
     <div id="mesSelector" style="text-align:center; margin-top: 10px; display: none;">
         <label for="mes" style= "color: white; padding-bottom: 20px;">Selecciona un mes:</label>
-        <select id="mes" onchange="filtrarPorMes()">
-
-            <option value="">Todos</option>
-            <option value="1">Enero</option>
-            <option value="2">Febrero</option>
-            <option value="3">Marzo</option>
-            <option value="4">Abril</option>
-            <option value="5">Mayo</option>
-            <option value="6">Junio</option>
-            <option value="7">Julio</option>
-            <option value="8">Agosto</option>
-            <option value="9">Septiembre</option>
-            <option value="10">Octubre</option>
-            <option value="11">Noviembre</option>
-            <option value="12">Diciembre</option>
-        </select>
+        <input type="month" id="mes" onchange="filtrarPorMes()">
     </div>
 
     <!-- La lista para seleccionar mese xd -->
@@ -110,9 +95,9 @@
     }
 
     function filtrarPorMes() {
-        const mes = document.getElementById('mes').value;
-        cargarGrafico(tipoActual, mes);
-    }
+    const mes = document.getElementById('mes').value;  // valor en formato YYYY-MM
+    cargarGrafico(tipoActual, mes);
+}
 
     function cargarGrafico(tipo, mes) {
         const url = `/api/grafica?tipo=${tipo === 'ventas' ? 'venta' : 'ingreso'}&mes=${mes}`;
