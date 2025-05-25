@@ -1,59 +1,90 @@
-/* static/css/estilos.css */
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 20px;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #f4f4f4;
-}
-
-input[type="text"] {
-    padding: 5px;
-    width: 300px;
-}
-
-form {
-    margin-bottom: 10px;
-}
-
+/* En static/css/visualizar.css */
 .top-bar {
+    background: linear-gradient(to right, #8e24aa, #7b1fa2);
+    color: white;
+    padding: 10px 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    background-color: #f0f0f0;
 }
 
 .user-button {
-    position: relative;
     cursor: pointer;
+    position: relative;
+}
+
+.user-button img {
+    margin-left: 10px;
+    vertical-align: middle;
 }
 
 .dropdown {
     display: none;
     position: absolute;
-    top: 30px;
+    top: 35px;
     right: 0;
-    background: white;
+    background-color: white;
     border: 1px solid #ccc;
+    z-index: 10;
+    padding: 10px;
 }
 
 .dropdown a {
-    display: block;
-    padding: 10px;
+    color: #333;
     text-decoration: none;
-    color: black;
 }
 
-.dropdown a:hover {
-    background-color: #eee;
+.landing-container {
+    padding: 40px;
+    color: white;
+    background: linear-gradient(to right, #7b1fa2, #8e24aa);
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    color: #7b1fa2;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
+
+input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+table {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-image: url("../img/fondo_login.png");
+    background-size: cover;
+    background-position: center;
 }
