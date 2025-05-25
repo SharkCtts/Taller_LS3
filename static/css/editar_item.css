@@ -6,21 +6,28 @@ body {
 }
 
 .top-bar {
-    background: linear-gradient(to right, #6a0dad, #a56de2);
-    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px 20px;
+    background-color: #a103a1;
     color: white;
+    
 }
 
-.top-bar button {
-    background: white;
-    color: #6a0dad;
+button {
+    background-color: #800080; /* gris oscuro */
+    color: white;
+    padding: 6px 16px;
     border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
     cursor: pointer;
+}
+
+button:hover {
+    background-color: #374151;
 }
 
 .user-button {

@@ -59,7 +59,7 @@
     
     <h1>Stock de Partes Automovilísticas</h1>
     
-    <button class= "botones_abajo" id="editarStockBtn">Editar Stock</button>
+    <button class= "botones_abajo" id="editarStockBtn">Acciones de Stock</button>
 
     <a href="{{ url_for('datos') }}">
         <button class= "botones_abajo">
@@ -71,7 +71,7 @@
         <input type="text" name="q" placeholder="Buscar por nombre o categoría..." value="{{ query }}">
         <button type="submit">Buscar</button>
         {% if query %}
-            <a href="{{ url_for('visualizar') }}">Limpiar</a>
+            <a class= "realmente_voy_a_crear_una_clase_para_esto" href="{{ url_for('visualizar') }}">Limpiar</a>
         {% endif %}
     </form>
 

@@ -9,21 +9,33 @@
     
 }
 
+.realmente_voy_a_crear_una_clase_para_esto{
+    color:white;
+}
+
+p{
+    color:#000000;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
 .botones_abajo {
     margin-top: 2px;
-    background-color: #800080; /* gris oscuro */
-    color: white;
+    background-color: #ffffff; /* gris oscuro */
+    color: rgb(0, 0, 0);
     padding: 6px 16px;
     border: 2px solid rgb(248, 248, 248);   /* Borde negro */
-    border-radius: 1px;
+    border-radius: 5px;
     font-size: 0.875rem;
     transition: background-color 0.2s;
     cursor: pointer;
+    margin: 3px;
 }
 
 
 .botones_abajo:hover {
     background-color: #374151;  /* Color más claro al pasar el mouse */
+    color: white
 }
 
 .user-button {
@@ -84,6 +96,7 @@ input[type="text"] {
     border-radius: 5px;
     border: 1px solid #ccc;
     padding: 10px 60px;
+
 
 }
 

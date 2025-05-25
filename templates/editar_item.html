@@ -9,6 +9,14 @@
 <body>
     <!-- BARRA SUPERIOR -->
     <div class="top-bar">
+        
+        <div class="space-x-2">
+            
+            <button onclick="location.href='{{ url_for('visualizar') }}'" class="menu-button">📦 Visualizar Stock</button>
+            <button onclick="location.href='{{ url_for('graficas') }}'" class="menu-button">📊 Ver Gráficas</button>
+            <button onclick="alert('Redirige a historial cuando esté listo');" class="menu-button">🕓 Visualizar Historial</button>
+        </div>
+        
         <a href="{{ url_for('visualizar') }}">
             <button>Volver a Visualizar</button>
         </a>
