@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Movimientos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/historial.css') }}">
+</head>
+
+<body>
+    <div class="top-bar">
+        <div class="space-x-2">
+            <button onclick="location.href='{{ url_for('visualizar') }}'" class="menu-button">📦 Visualizar Stock</button>
+            <button onclick="location.href='{{ url_for('graficas') }}'" class="menu-button">📊 Ver Gráficas</button>
+            <button onclick="location.href='{{ url_for('historial') }}'" class="menu-button">🕓 Visualizar Historial</button>
+        </div>
+
+        <a href="{{ url_for('menu') }}">
+            <button>Volver al Menú Principal</button>
+        </a>
+
+        <div class="user-button" onclick="toggleDropdown()">
+            {{ username }}
+            <img src="{{ url_for('static', filename='user_icon.png') }}" alt="User" width="30">
+            <div class="dropdown" id="userDropdown">
+                <a href="{{ url_for('logout') }}">Deslogearse</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="landing-container">
+        <h1>Historial de Movimientos</h1>
+
+        <form method="get" style="display: flex; gap: 10px; margin-bottom: 20px;">
+    <!-- Búsqueda por nombre o tipo -->
+    <input type="text" name="q" placeholder="Buscar por nombre o tipo..." value="{{ query }}">
+    
+    <!-- Filtro por mes -->
+    <input type="month" name="mes" value="{{ mes }}">
+
+    <button type="submit">Buscar</button>
+
+    {% if query or mes %}
+        <a class="limpiar-busqueda" href="{{ url_for('historial') }}">Limpiar</a>
+    {% endif %}
+</form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.tipo }}</td>
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            let dropdown = document.getElementById("userDropdown");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+    </script>
+</body>
+</html>

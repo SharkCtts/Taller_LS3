@@ -13,6 +13,8 @@ from flask import jsonify
 from datetime import datetime
 from collections import defaultdict
 
+from flask import request
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -246,17 +248,22 @@ def api_grafica():
 @app.route('/historial')
 def historial():
     query = request.args.get('q', '')
+    mes = request.args.get('mes', '')
+
+    filtro = {}
+
     if query:
-        filtro = {
-            '$or': [
-                {'nombre': {'$regex': query, '$options': 'i'}},
-                {'tipo': {'$regex': query, '$options': 'i'}}
-            ]
-        }
-        items = list(historial_collection.find(filtro))
-    else:
-        items = list(historial_collection.find({}))
-    return render_template('historial.html', items=items, query=query, username=session.get('username'))
+        filtro['$or'] = [
+            {'nombre': {'$regex': query, '$options': 'i'}},
+            {'tipo': {'$regex': query, '$options': 'i'}}
+        ]
+
+    if mes:
+        filtro['fecha'] = {'$regex': f'^{mes}'}
+
+    items = list(historial_collection.find(filtro))
+    
+    return render_template('historial.html', items=items, query=query, mes=mes, username=session.get('username'))
 
 
 
