@@ -201,6 +201,8 @@ def graficas():
                            ingresos=ingresos_por_articulo,
                            ganancia_mes=ganancia_por_mes)
 
+    
+
 #filtro por mes
 
 @app.route('/api/grafica')

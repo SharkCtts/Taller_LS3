@@ -13,15 +13,24 @@
 
 <body>
     
-<div class="landing-container">
-
-    
     <div class="top-bar">
         
+        <div class="space-x-2">
+            
+            <button onclick="location.href='{{ url_for('visualizar') }}'" class="menu-button">📦 Visualizar Stock</button>
+            <button onclick="location.href='{{ url_for('graficas') }}'" class="menu-button">📊 Ver Gráficas</button>
+            <button onclick="alert('Redirige a historial cuando esté listo');" class="menu-button">🕓 Visualizar Historial</button>
+        </div>
+    
+        <a href="{{ url_for('menu') }}">
+            <button>Volver al Menú Principal</button>
+        </a>
+
         <form action="{{ url_for('exportar_excel') }}" method="get" style="display: inline;">
-            <button type="submit" class="btn btn-success">Exportar a Excel</button>
+            <button type="submit" class="btn btn-success">Exportar a Excel 🖨️</button>
         </form>
 
+        
 
         <div class="user-button" onclick="toggleDropdown()">
             {{ username }}
@@ -31,6 +40,9 @@
             </div>
         </div>
     </div>
+
+
+<div class="landing-container">
 
     <script>
         function toggleDropdown() {
@@ -46,14 +58,11 @@
 <!--  DIV xd con usuario y botón -->
     
     <h1>Stock de Partes Automovilísticas</h1>
-    <a href="{{ url_for('menu') }}">
-        <button style="margin-top: 10px;">Volver al Menú Principal</button>
-    </a>
-
-    <button id="editarStockBtn">Editar Stock</button>
+    
+    <button class= "botones_abajo" id="editarStockBtn">Editar Stock</button>
 
     <a href="{{ url_for('datos') }}">
-        <button>
+        <button class= "botones_abajo">
             Agregar al Stock
         </button>
     </a>
