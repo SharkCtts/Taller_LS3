@@ -1,11 +1,13 @@
 /* En static/css/visualizar.css */
 .top-bar {
-    background: linear-gradient(to right, #8e24aa, #7b1fa2);
+    background-color: #a103a1;
     color: white;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 3px solid #000000;
+    border-radius: 10px;
 }
 
 .user-button {
@@ -37,7 +39,7 @@
 .landing-container {
     padding: 40px;
     color: white;
-    background: linear-gradient(to right, #7b1fa2, #8e24aa);
+    background: linear-gradient(to right, #800080, #b266b2);
     min-height: 100vh;
 }
 
@@ -74,6 +76,9 @@ table {
     color: black;
     border-collapse: collapse;
     margin-top: 20px;
+    border: 3px solid #000000;
+
+
 }
 
 th, td {

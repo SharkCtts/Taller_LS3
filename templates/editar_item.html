@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Editar Ítem</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/visualizar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editar_item.css') }}">
 </head>
 <body>
     <!-- BARRA SUPERIOR -->
@@ -21,26 +21,26 @@
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO -->
     <div class="landing-container">
         <h1>Editar Ítem</h1>
         <form method="POST">
-            <label>Nombre:</label><br>
-            <input type="text" name="nombre" value="{{ item.nombre }}" required><br><br>
+            <label>Nombre:</label>
+            <input type="text" name="nombre" value="{{ item.nombre }}" required>
 
-            <label>Categoría:</label><br>
-            <input type="text" name="categoria" value="{{ item.categoria }}" required><br><br>
+            <label>Categoría:</label>
+            <input type="text" name="categoria" value="{{ item.categoria }}" required>
 
-            <label>Cantidad:</label><br>
-            <input type="number" name="cantidad" value="{{ item.cantidad }}" required><br><br>
+            <label>Cantidad:</label>
+            <input type="number" name="cantidad" value="{{ item.cantidad }}" required>
 
-            <label>Precio (USD):</label><br>
-            <input type="text" name="precio" value="{{ item.precio }}" required><br><br>
+            <label>Precio (USD):</label>
+            <input type="text" name="precio" value="{{ item.precio }}" required>
 
-            <button type="submit">Guardar Cambios</button>
-            <a href="{{ url_for('visualizar') }}">
-                <button type="button">Cancelar</button>
-            </a>
+            <div class="form-buttons">
+                <button type="submit">Guardar Cambios</button>
+                <a href="{{ url_for('visualizar') }}"><button type="button">Cancelar</button></a>
+            </div>
         </form>
     </div>
 

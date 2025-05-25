@@ -1,9 +1,69 @@
-input, select {
-    padding: 8px;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #e3d1f7, #f5e9ff);
+    color: #333;
+}
+
+.top-bar {
+    background: linear-gradient(to right, #6a0dad, #a56de2);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.top-bar button {
+    background: white;
+    color: #6a0dad;
+    border: none;
+    padding: 8px 12px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+.user-button {
+    cursor: pointer;
+    position: relative;
+}
+
+.user-button img {
+    margin-left: 8px;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 35px;
+    background-color: white;
     border: 1px solid #ccc;
-    width: 100%;
-    max-width: 400px;
+    z-index: 10;
+}
+
+.dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.landing-container {
+    padding: 40px 20px;
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    margin-top: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: #6a0dad;
 }
 
 form {
@@ -12,8 +72,28 @@ form {
     gap: 15px;
 }
 
-h1 {
-    color: white;
+input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+}
 
+.form-buttons button {
+    flex: 1;
+    margin: 5px;
+    padding: 10px;
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-buttons button[type="button"] {
+    background-color: gray;
+}
