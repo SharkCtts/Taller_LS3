@@ -53,3 +53,72 @@
 .custom-header {
     background-color: #a103a1;
 }
+
+/* Fondo con gradiente morado */
+.landing-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px;
+    background: linear-gradient(to right, #800080, #b266b2);
+    color: white;
+    min-height: 80vh;
+}
+
+/* Contenido textual */
+.landing-content {
+    max-width: 50%;
+}
+
+.landing-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.landing-description {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Botón */
+.info-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: white;
+    color: #800080;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.info-button:hover {
+    background-color: #f0d0f0;
+}
+
+/* Imagen decorativa */
+.landing-image img {
+    max-width: 400px;
+    height: auto;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: url("img/fondo_login.png") no-repeat center center fixed;
+    background-size: cover;
+}
+
+
