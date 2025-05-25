@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Agregar al Stock</title>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/datos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/editar_item.css') }}">
 </head>
 <body>
-
+    <!-- BARRA SUPERIOR -->
     <div class="top-bar">
-   
+        <div class="space-x-2">
+            <button onclick="location.href='{{ url_for('visualizar') }}'" class="menu-button">📦 Visualizar Stock</button>
+            <button onclick="location.href='{{ url_for('graficas') }}'" class="menu-button">📊 Ver Gráficas</button>
+            <button onclick="alert('Redirige a historial cuando esté listo');" class="menu-button">🕓 Visualizar Historial</button>
+        </div>
+
         <div class="user-button" onclick="toggleDropdown()">
             {{ username }}
             <img src="{{ url_for('static', filename='user_icon.png') }}" alt="User" width="30">
@@ -20,34 +24,34 @@
         </div>
     </div>
 
+    <!-- CONTENIDO -->
+    <div class="landing-container">
+        <h1>Agregar Nuevo Ítem</h1>
+        <form method="POST">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required>
+
+            <label>Categoría:</label>
+            <input type="text" name="categoria" required>
+
+            <label>Cantidad:</label>
+            <input type="number" name="cantidad" required>
+
+            <label>Precio (USD):</label>
+            <input type="number" name="precio" step="0.01" required>
+
+            <div class="form-buttons">
+                <button type="submit">Guardar</button>
+                <a href="{{ url_for('visualizar') }}"><button type="button">Cancelar</button></a>
+            </div>
+        </form>
+    </div>
+
     <script>
         function toggleDropdown() {
-            let dropdown = document.getElementById("userDropdown");
+            const dropdown = document.getElementById("userDropdown");
             dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
         }
-
-        // Para que salga el boton de deslogueo
     </script>
-
-
-    <h1>Agregar Nuevo Ítem</h1>
-    <form method="POST">
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre" required><br><br>
-
-        <label>Categoría:</label><br>
-        <input type="text" name="categoria" required><br><br>
-
-        <label>Cantidad:</label><br>
-        <input type="number" name="cantidad" required><br><br>
-
-        <label>Precio:</label><br>
-        <input type="number" name="precio" step="0.01" required><br><br>
-
-        <button type="submit">Guardar</button>
-    </form>
-
-    <br>
-    <a href="{{ url_for('visualizar') }}">Volver a visualizar</a>
 </body>
 </html>

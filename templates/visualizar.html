@@ -110,14 +110,11 @@
         <button onclick="cerrarModal()">Cancelar</button>
     </div>
 
-    <div id="confirmModal" style="display:none; position:fixed; top:35%; left:40%; background:white; border:1px solid red; padding:20px;">
+    <div id="confirmModal" style="display: none; position: fixed; top: 35%; left: 40%; background: white; border: 1px solid red; padding: 20px; z-index: 1000;">
         <p>¿Estás seguro de que deseas eliminar este ítem?</p>
         <form id="formEliminar" method="POST">
-            <div id="confirmModal" style="display: none;">
-                <p>¿Estás seguro de que deseas eliminar este ítem?</p>
-                <button type="submit">Sí, eliminar</button>
-                <button type="button" onclick="cerrarModal()">Cancelar</button>
-            </div>
+            <button type="submit">Sí, eliminar</button>
+            <button type="button" onclick="cerrarModal()">Cancelar</button>
         </form>
     </div>
 
