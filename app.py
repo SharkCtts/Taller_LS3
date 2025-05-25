@@ -231,13 +231,22 @@ def api_grafica():
             precio = precios.get(nombre, 0)
             ganancia += cantidad * precio
 
+    # 👇 Aquí se mueve el cálculo fuera del bucle y fuera del if
+    total_ingresos = sum(conteo.values()) if tipo == 'ingreso' else None
+
     return jsonify({
         'labels': list(conteo.keys()),
         'values': list(conteo.values()),
-        'ganancia': ganancia if tipo == 'venta' else None
+        'ganancia': ganancia if tipo == 'venta' else None,
+        'total': total_ingresos
     })
 
 
+    
+
+
+
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

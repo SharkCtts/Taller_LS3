@@ -44,7 +44,7 @@
     <div id="ganancia" style="text-align:center; font-size: 18px; font-weight: bold;"></div>
 
     <div id="mesSelector" style="text-align:center; margin-top: 10px; display: none;">
-        <label for="mes">Selecciona un mes:</label>
+        <label for="mes" style= "color: white; padding-bottom: 20px;">Selecciona un mes:</label>
         <select id="mes" onchange="filtrarPorMes()">
 
             <option value="">Todos</option>
@@ -90,7 +90,9 @@
         tipoActual = tipo;
         const selector = document.getElementById('mesSelector');
         const gananciaDiv = document.getElementById('ganancia');
-        selector.style.display = tipo === 'ventas' ? 'block' : 'none';
+
+        // Mostrar selector solo para ventas o ingresos
+        selector.style.display = (tipo === 'ventas' || tipo === 'ingresos') ? 'block' : 'none';
         gananciaDiv.innerText = '';  // limpia ganancia al cambiar tipo
 
         if (tipo === 'categoria') {
@@ -113,7 +115,9 @@
     }
 
     function cargarGrafico(tipo, mes) {
-        fetch(`/api/grafica?tipo=${tipo === 'ventas' ? 'venta' : 'ingreso'}&mes=${mes}`)
+        const url = `/api/grafica?tipo=${tipo === 'ventas' ? 'venta' : 'ingreso'}&mes=${mes}`;
+
+        fetch(url)
             .then(res => res.json())
             .then(data => {
                 const color = tipo === 'ventas'
@@ -129,11 +133,19 @@
                     }]
                 });
 
-                // Mostrar ganancia si corresponde
                 const div = document.getElementById('ganancia');
-                if (tipo === 'ventas' && data.ganancia !== null) {
-                    div.innerText = `Ganancia en el mes: $${data.ganancia.toFixed(2)}`;
+                if (tipo === 'ventas') {
+                    if (data.ganancia !== undefined && data.ganancia !== null) {
+                        div.innerText = `Ganancia en el mes: $${data.ganancia.toFixed(2)}`;
+                    } else {
+                        div.innerText = 'Ganancia en el mes: $0.00';
+                    }
+                } else {
+                    div.innerText = '';  // limpiar si no es ventas
                 }
+            })
+            .catch(err => {
+                console.error('Error al cargar los datos del gráfico:', err);
             });
     }
 
@@ -146,7 +158,7 @@
         });
     }
 
-    // Mostrar la gráfica por defecto al cargar
+    // Mostrar por defecto al cargar
     window.onload = () => {
         mostrarGrafica('categoria');
     };

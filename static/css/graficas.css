@@ -7,6 +7,22 @@
     color: white;
 }
 
+#ganancia {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(255, 255, 255); /* o white si usas fondo oscuro */
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 20px; /* opcional: separa un poco del contenido superior */
+}
+
+
+.chart-container{
+    background-color: white;
+    border-top: solid black 3px;
+}
+
 p {
     color: #000000;
     text-align: center;
@@ -32,6 +48,7 @@ p {
     border: 1px solid #ccc;
     z-index: 10;
     padding: 10px;
+    
 }
 
 .dropdown a {
