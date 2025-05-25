@@ -1,0 +1,55 @@
+/* Dropdown */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 10;
+    min-width: 150px;
+}
+
+.dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown a:hover {
+    background-color: #eee;
+}
+
+/* Botones del menú superior */
+.menu-button {
+    background-color: #800080; /* gris oscuro */
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+}
+
+.menu-button:hover {
+    background-color: #374151;
+}
+
+/* Botones del landing */
+.landing-button {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    transition: background-color 0.2s;
+    font-size: 1rem;
+}
+
+.landing-button:hover {
+    background-color: #fff3fe; /* tono lavanda claro */
+}
+
+.custom-header {
+    background-color: #a103a1;
+}

@@ -1,37 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Menú Principal</title>
-    <style>
-        .top-bar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 10px;
-            background-color: #f0f0f0;
-        }
-        .user-button {
-            position: relative;
-            cursor: pointer;
-        }
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 30px;
-            right: 0;
-            background: white;
-            border: 1px solid #ccc;
-        }
-        .dropdown a {
-            display: block;
-            padding: 10px;
-            text-decoration: none;
-            color: black;
-        }
-        .dropdown a:hover {
-            background-color: #eee;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
     <script>
         function toggleDropdown() {
             let dropdown = document.getElementById("userDropdown");
@@ -39,24 +12,34 @@
         }
     </script>
 </head>
-<body>
-    <div class="top-bar">
-        <div class="user-button" onclick="toggleDropdown()">
+<body class="bg-white text-gray-800 font-sans">
+
+    <!-- Top bar -->
+    <div class="custom-header text-white px-6 py-4 flex justify-between items-center">
+        <!-- Navegación izquierda -->
+        <div class="space-x-2">
+            <button onclick="location.href='{{ url_for('visualizar') }}'" class="menu-button">📦 Visualizar Stock</button>
+            <button onclick="location.href='{{ url_for('graficas') }}'" class="menu-button">📊 Ver Gráficas</button>
+            <button onclick="alert('Redirige a historial cuando esté listo');" class="menu-button">🕓 Visualizar Historial</button>
+        </div>
+
+        <!-- Usuario derecha -->
+        <div class="relative user-button cursor-pointer" onclick="toggleDropdown()">
             {{ username }}
-            <img src="{{ url_for('static', filename='user_icon.png') }}" alt="User" width="30">
+            <img src="{{ url_for('static', filename='user_icon.png') }}" alt="User" class="inline-block ml-2 w-6 h-6 rounded-full">
             <div class="dropdown" id="userDropdown">
                 <a href="{{ url_for('logout') }}">Deslogearse</a>
             </div>
         </div>
     </div>
 
-    <h2>Menú Principal</h2>
-    <button onclick="location.href='{{ url_for('visualizar') }}'">Visualizar Stock</button>
-    <a href="{{ url_for('graficas') }}">
-        <button>Ver Gráficas</button>
-    </a>
-    <button>Visualizar Historial</button>
-
+    <!-- Landing principal -->
+    <main class="p-10 flex flex-col items-center">
+        <div class="bg-white rounded shadow-md p-10 text-center max-w-xl">
+            <h1 class="text-3xl font-bold mb-4">Ejes Juan Carlos 🔧</h1>
+            <p class="text-gray-700">Reparacion de suspensión para autos y camionetas,Mecánica rápida, inyección electrónica, sincronización automotriz, servicios de scaner OBD2.</p>
+        </div>
+    </main>
 
 </body>
 </html>
