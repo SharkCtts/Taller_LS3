@@ -122,3 +122,10 @@ body {
     background: linear-gradient(to right, #800080, #b266b2);
     background-position: center;
 }
+
+h1 {
+    font-family: 'Segoe UI', sans-serif;
+    text-decoration: solid;
+    color: white;
+    text-align: center;
+}
