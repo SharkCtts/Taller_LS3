@@ -119,7 +119,6 @@ th, td {
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background-image: url("../img/fondo_login.png");
     background-size: cover;
     background-position: center;
 }
