@@ -67,6 +67,23 @@ button:hover {
     background-color: #374151;
 }
 
+.botones_stock button{
+    background-color: #ffffff; /* gris oscuro */
+    color: rgb(0, 0, 0);
+    padding: 6px 16px;
+    border: 2px solid rgb(248, 248, 248);   /* Borde negro */
+    border-radius: 5px;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    margin: 3px;
+}
+
+.botones_stock button:hover{
+    background-color: #374151;  /* Color más claro al pasar el mouse */
+    color: white
+}
+
 table {
     width: 100%;
     background-color: rgb(255, 255, 255);
@@ -84,7 +101,7 @@ th, td {
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background-image: url("../img/fondo_login.png");
     background-size: cover;
+    background: linear-gradient(to right, #800080, #b266b2);
     background-position: center;
 }
