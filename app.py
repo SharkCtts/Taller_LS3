@@ -242,7 +242,21 @@ def api_grafica():
     })
 
 
-    
+
+@app.route('/historial')
+def historial():
+    query = request.args.get('q', '')
+    if query:
+        filtro = {
+            '$or': [
+                {'nombre': {'$regex': query, '$options': 'i'}},
+                {'tipo': {'$regex': query, '$options': 'i'}}
+            ]
+        }
+        items = list(historial_collection.find(filtro))
+    else:
+        items = list(historial_collection.find({}))
+    return render_template('historial.html', items=items, query=query, username=session.get('username'))
 
 
 
