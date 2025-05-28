@@ -270,7 +270,7 @@ def historial():
 
 @app.route('/informacion')
 def informacion():
-    return render_template('informacion.html')
+    return render_template('informacion.html', username=session.get('username'))
 
     
 
