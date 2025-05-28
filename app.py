@@ -1,19 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from pymongo import MongoClient
-from bson.objectid import ObjectId
-
+# 📦 Standard Library
+from collections import defaultdict
+from datetime import datetime
+import io
 import tkinter as tk
 from tkinter import messagebox
 
+# 🌐 Third-party packages
 import pandas as pd
-from flask import send_file
-import io
-
-from flask import jsonify
-from datetime import datetime
-from collections import defaultdict
-
-from flask import request
+from bson.objectid import ObjectId
+from flask import (
+    Flask, render_template, request, redirect,
+    url_for, session, send_file, jsonify
+)
+from pymongo import MongoClient
 
 
 app = Flask(__name__)
