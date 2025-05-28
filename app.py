@@ -2,8 +2,6 @@
 from collections import defaultdict
 from datetime import datetime
 import io
-import tkinter as tk
-from tkinter import messagebox
 
 # 🌐 Third-party packages
 import pandas as pd
@@ -28,6 +26,7 @@ historial_collection = db['historial']
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    error = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -36,9 +35,8 @@ def login():
             session['username'] = username
             return redirect(url_for('menu'))
         else:
-            messagebox.showwarning("ADVERTENCIA: Credenciales incorrectas")
-            return redirect(url_for('login'))
-    return render_template('login.html')
+            error = "Información Incorrecta"
+    return render_template('login.html', error=error)
 
 @app.route('/menu')
 def menu():

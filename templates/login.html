@@ -7,6 +7,10 @@
 <body>
     <h2>Iniciar Sesión</h2>
     <form method="POST">
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+        
         <label>Usuario:</label><br>
         <input type="text" name="username" required><br>
         <label>Contraseña:</label><br>
