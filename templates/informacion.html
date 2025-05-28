@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Información - Ejes Juan Carlos OS</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/informacion.css') }}">
+    <script>
+        function toggleDropdown() {
+            let dropdown = document.getElementById("userDropdown");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-purple-200 to-purple-50 text-gray-800 font-sans">
+
+    <!-- Top bar -->
+    <div class="top-bar flex justify-between items-center px-6 py-4 bg-purple-800 text-white">
+        <div>
+            <button onclick="location.href='{{ url_for('menu') }}'">Volver al Menú</button>
+        </div>
+        <div class="user-button relative cursor-pointer" onclick="toggleDropdown()">
+            {{ username }}
+            <img src="{{ url_for('static', filename='img/diagrama_mongodb.jpeg') }}" alt="User" class="inline-block ml-2 w-6 h-6 rounded-full">
+            <div class="dropdown" id="userDropdown">
+                <a href="{{ url_for('logout') }}">Deslogearse</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="landing-container mt-10">
+        <h1>Ejes Juan Carlos OS</h1>
+        
+        <h2>Propósito</h2>
+        <p>Herramienta para gestionar el inventario de repuestos automovilísticos en el taller mecánico Ejes Juan Carlos.</p>
+
+        <h2>Resumen</h2>
+        <p>
+            El taller mecánico "Ejes Juan Carlos" enfrenta actualmente desafíos en el control, registro y actualización de su inventario de repuestos. Las tareas se realizan de forma manual o con herramientas genéricas como hojas de cálculo, lo cual genera errores, duplicidad de información y pérdida de tiempo en las búsquedas o actualizaciones de stock.
+        </p>
+        <p>
+            En el contexto específico del negocio, la falta de una herramienta especializada en gestión de repuestos impide un seguimiento eficiente de las entradas, salidas y actualizaciones de productos, lo cual afecta directamente la toma de decisiones, el control de costos y el nivel de servicio al cliente.
+        </p>
+        <p>
+            Se propone el desarrollo de una herramienta digital llamada Ejes Juan Carlos OS, un sistema de gestión diseñado especialmente para el taller “Ejes Juan Carlos”, que permita agregar, eliminar, actualizar y visualizar repuestos automovilísticos. La solución incluirá una interfaz web amigable, un backend organizado y una base de datos estructurada, todo desplegado en un repositorio privado con instrucciones detalladas para su sitio de uso.
+        </p>
+        <p>
+            Los beneficios de implementar esta solución incluyen el ahorro significativo de tiempo administrativo, una mejor precisión en el control de stock, reducción de pérdidas económicas por errores de registro, mejora en la atención al cliente al tener visibilidad inmediata del inventario, y la posibilidad de escalar el negocio con bases tecnológicas sólidas.
+        </p>
+
+        <h2>Objetivo General</h2>
+        <p>Desarrollar un sistema de gestión que permita administrar de buena manera el inventario de repuestos automovilísticos en el taller “Ejes Juan Carlos”.</p>
+
+        <h2>Objetivos Específicos</h2>
+        <ul class="list-disc list-inside">
+            <li><strong>Analizar:</strong>
+                <ul class="list-decimal list-inside ml-6">
+                    <li><strong>Req. Funcionales:</strong>
+                        <ul class="list-disc list-inside ml-6">
+                            <li>El Sistema debe permitir registrar nuevos repuestos con datos como nombre, categoría, cantidad y precio</li>
+                            <li>El Sistema debe permitir modificar o eliminar repuestos existentes</li>
+                            <li>El Sistema debe mostrar una lista actualizada del inventario a tiempo real, con opciones de búsqueda mediante filtros</li>
+                            <li>El Sistema debe permitir visualizar gráficos sobre datos del inventario, tal como puede ser las ganancias mensuales</li>
+                        </ul>
+                    </li>
+                    <li><strong>Req. No Funcionales:</strong>
+                        <ul class="list-disc list-inside ml-6">
+                            <li>El Sistema debe responder a las consultas de inventario de forma rápida</li>
+                            <li>La interfaz debe ser intuitiva y fácil de usar</li>
+                            <li>El sistema debe estar desarrollado con una arquitectura modular que permita agregar nuevos módulos</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Diseñar</h2>
+        <div class="text-center my-6">
+            <img src="{{ url_for('static', filename='img/diagrama_mongodb.jpg') }}" alt="Diseño MongoDB" class="mx-auto rounded-lg shadow-lg max-w-full h-auto" style="max-width: 400px;">
+        </div>
+
+        <h2>Desarrollar</h2>
+        <p><strong>Desarrollo Ritmit (paso a paso para desplegar en GitHub):</strong></p>
+        <ol class="list-decimal list-inside ml-6">
+            <li>Clonar el repositorio (opcional, para desarrollo o mantenimiento):<br><code>git clone https://github.com/SharkcCtts/Taller_LS3.git</code></li>
+            <li>Revisar la estructura del proyecto:
+                <ul class="list-disc list-inside ml-6">
+                    <li>Verificar carpetas de frontend y backend (si aplica)</li>
+                    <li>Revisar archivos de configuración para despliegue, en éste caso: vercel.json</li>
+                </ul>
+            </li>
+            <li>Configurar entorno local (solo para desarrollo):
+                <ul class="list-disc list-inside ml-6">
+                    <li>Crear entorno virtual: <code>python -m venv env</code></li>
+                    <li>Activar entorno: <code>source env/bin/activate</code> (Linux/Mac) o <code>env\Scripts\activate</code> (Windows)</li>
+                    <li>Instalar dependencias: <code>pip install -r requirements.txt</code></li>
+                </ul>
+            </li>
+            <li>Ejecutar proyecto localmente (opcional):
+                <ul class="list-disc list-inside ml-6">
+                    <li>Para backend: <code>python manage.py runserver</code> (Django) o comando equivalente Flask</li>
+                    <li>Para frontend: <code>npm install</code> y <code>npm run dev</code> o el script definido</li>
+                </ul>
+            </li>
+            <li>Preparar actualización y despliegue en Vercel:
+                <ul class="list-disc list-inside ml-6">
+                    <li>Hacer commits con cambios en el código</li>
+                    <li>Push a GitHub (Vercel suele integrarse automáticamente con GitHub)</li>
+                    <li>Vercel detecta el cambio y despliega automáticamente</li>
+                </ul>
+            </li>
+            <li>Verificar despliegue:
+                <ul class="list-disc list-inside ml-6">
+                    <li>Abrir el link <a href="https://taller-ls-3.vercel.app/" target="_blank" class="text-purple-700 underline">https://taller-ls-3.vercel.app/</a></li>
+                    <li>Comprobar que las funciones (agregar, eliminar, actualizar productos) funcionan correctamente</li>
+                </ul>
+            </li>
+            <li>Uso para usuarios finales:
+                <ul class="list-disc list-inside ml-6">
+                    <li>Solo abrir el navegador y entrar a <a href="https://taller-ls-3.vercel.app/" target="_blank" class="text-purple-700 underline">https://taller-ls-3.vercel.app/</a></li>
+                    <li>Iniciar sesión y usar la aplicación</li>
+                </ul>
+            </li>
+            <li>Monitoreo y mantenimiento:
+                <ul class="list-disc list-inside ml-6">
+                    <li>Revisar logs de errores en la consola de Vercel</li>
+                    <li>Actualizar código y redeplegar según sea necesario</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>Lenguaje y Frameworks:</h3>
+        <p>Python, HTML, CSS<br>Frameworks: Flask, Flask-SQLAlchemy, pymongo, dnspython, Python-dotenv, gunicorn, pandas</p>
+    </div>
+
+</body>
+</html>

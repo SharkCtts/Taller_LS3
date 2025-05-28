@@ -268,6 +268,9 @@ def historial():
     return render_template('historial.html', items=items, query=query, mes=mes, username=session.get('username'))
 
 
+@app.route('/informacion')
+def informacion():
+    return render_template('informacion.html')
 
     
 
