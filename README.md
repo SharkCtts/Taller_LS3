@@ -5,3 +5,7 @@ pip install -r requirements.txt
 para instalar las dependencias del proyecto
 
 pip install Flask pymongo
+
+pip install pandas openpyxl
+
+users_collection.insert_one({'username': 'admin', 'password': 'admin'})
