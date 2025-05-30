@@ -1,11 +1,7 @@
 # Taller_LS3
 Trabajo final del curso laboratorio de software 3 xd
 
-pip install -r requirements.txt
-para instalar las dependencias del proyecto
+La contraseña del usuario para iniciar sesión es
 
-pip install Flask pymongo
-
-pip install pandas openpyxl
-
-users_collection.insert_one({'username': 'admin', 'password': 'admin'})
+Usuario: Juan
+Contraseña: Root
